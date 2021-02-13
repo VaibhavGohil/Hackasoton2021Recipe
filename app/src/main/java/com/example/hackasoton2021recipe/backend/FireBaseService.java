@@ -29,6 +29,7 @@ public class FireBaseService extends Application {
     private List<String> productNames = new ArrayList<>();
     private boolean loaded = false;
     private TreeMap<String, Integer> occurrences = new TreeMap<>();
+    private TreeMap<String, Integer> nonOccurrences = new TreeMap<>();
 
     @Override
     public void onCreate() {
@@ -52,6 +53,10 @@ public class FireBaseService extends Application {
         return occurrences;
     }
 
+    public TreeMap<String, Integer> getNonOccurrences() {
+        return nonOccurrences;
+    }
+
     public void readData(){
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Details").collection("Logs").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -69,6 +74,7 @@ public class FireBaseService extends Application {
                             System.out.println(dlogs.size());
                             if (temp.rating.equals("Yes")) {
                                 for (String ingredient: temp.ingredients) {
+                                    ingredient.toLowerCase();
                                     if (occurrences.containsKey(ingredient)) {
                                         Integer value = occurrences.get(ingredient);
                                         occurrences.replace(ingredient, value, value + 1);
@@ -76,12 +82,39 @@ public class FireBaseService extends Application {
                                         occurrences.put(ingredient, 1);
                                     }
                                 }
+                                for (String product: productNames) {
+                                    product.toLowerCase();
+                                    if (occurrences.containsKey(product)) {
+                                        Integer value = occurrences.get(product);
+                                        occurrences.replace(product, value, value + 1);
+                                    } else {
+                                        occurrences.put(product, 1);
+                                    }
+                                }
+                            } else {
+                                for (String ingredient: temp.ingredients) {
+                                    ingredient.toLowerCase();
+                                    if (nonOccurrences.containsKey(ingredient)) {
+                                        Integer value = nonOccurrences.get(ingredient);
+                                        nonOccurrences.replace(ingredient, value, value + 1);
+                                    } else {
+                                        nonOccurrences.put(ingredient, 1);
+                                    }
+                                }
+                                for (String product: productNames) {
+                                    product.toLowerCase();
+                                    if (nonOccurrences.containsKey(product)) {
+                                        Integer value = nonOccurrences.get(product);
+                                        nonOccurrences.replace(product, value, value + 1);
+                                    } else {
+                                        nonOccurrences.put(product, 1);
+                                    }
+                                }
                             }
                         }
                     }
                 });
         loaded = true;
-        System.out.println(loaded + " "+ dlogs.size());
     }
 
     public boolean getLoaded(){
@@ -209,7 +242,8 @@ public class FireBaseService extends Application {
 
 
 
-    public void deleteLog(String path){
+    public void deleteLog(String path,int index){
+        this.dlogs.remove(index);
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Details").collection("Logs").document(path).delete();
         this.refresh();
     }

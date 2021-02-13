@@ -51,7 +51,8 @@ public class BarcodeScanner extends Fragment {
                                 temp = temp + ", " + strings.get(i);
                             }
                             txt.setText(temp);
-                        }{
+
+                        } else{
                             RelativeLayout layout = (RelativeLayout) root.findViewById(R.id.rellayout);
                             txt.setText("");
                             Snackbar snackbar = Snackbar
