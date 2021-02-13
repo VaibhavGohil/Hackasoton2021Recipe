@@ -28,6 +28,7 @@ public class FireBaseService extends Application {
     private List<String> ingredients = new ArrayList<>();
     private List<String> productNames = new ArrayList<>();
     private boolean loaded = false;
+    private  ArrayList<OccurancePercentage> result = new ArrayList<>();
     private TreeMap<String, Integer> occurrences = new TreeMap<>();
     private TreeMap<String, Integer> nonOccurrences = new TreeMap<>();
 
@@ -112,6 +113,7 @@ public class FireBaseService extends Application {
                                 }
                             }
                         }
+                        getIngredientPercentages();
                     }
                 });
         loaded = true;
@@ -124,6 +126,7 @@ public class FireBaseService extends Application {
     public  List<DiaryLog> getData(){
         return dlogs;
     }
+    public ArrayList<OccurancePercentage> getPercentages(){ return this.result;}
 
     public void clear(){
         dlogs = new ArrayList<DiaryLog>();
@@ -256,16 +259,19 @@ public class FireBaseService extends Application {
     }
 
     //calculate percentages of reaction occurrences in relation to number of times an ingredient is consumed
-    public TreeMap<String, Float> getIngredientPercentages(){
-        TreeMap<String, Float> result= new TreeMap<>();
-
+    public void getIngredientPercentages(){
+        Log.d(null,"NULL OR NOT O" + occurrences);
+        Log.d(null,"NULL OR NOT " + nonOccurrences);
         for (Map.Entry<String,Integer> ingredient : occurrences.entrySet()){
             Float occurrence = Float.valueOf(ingredient.getValue());
-            Float nonOccurrence = Float.valueOf(nonOccurrences.get(ingredient.getKey()));
-            float percent = occurrence/ (occurrence + nonOccurrence);
-            if (percent > 0.5) result.put(ingredient.getKey(),percent);
+            Float nonOccurrence = (nonOccurrences == null) ? Float.valueOf(nonOccurrences.get(ingredient.getKey())) : 0;
+            Integer percent = Math.round((occurrence / (occurrence + nonOccurrence) * 100));
+            OccurancePercentage temp = new OccurancePercentage();
+            temp.occuranceName = ingredient.getKey();
+            temp.percentage = percent;
+            result.add(temp);
         }
-        return result;
     }
 }
+
 
