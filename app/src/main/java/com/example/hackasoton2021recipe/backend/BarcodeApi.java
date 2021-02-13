@@ -69,7 +69,10 @@ public class BarcodeApi extends Application
     private void getIngredientsFromBarcode(String barcode, Context c, CountDownLatch latch){
         jsonResponses = new ArrayList<>();
 
-        String url = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json?fields=ingredients_hierarchy";
+        //String url = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json?fields=ingredients_hierarchy";
+        //String url2 = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json?fields=product_name";
+        String url = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
+
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -85,6 +88,9 @@ public class BarcodeApi extends Application
                         JSONObject response = new JSONObject(temp);
                         System.out.println("RESP: " + response.toString());
                         JSONArray jsonArray = response.getJSONObject("product").getJSONArray("ingredients_hierarchy");
+                        String name = response.getJSONObject("product").getString("product_name");
+                        jsonResponses.add(name);
+
                         for(int i = 0; i < jsonArray.length(); i++){
                             String ingredient = jsonArray.getString(i);
                             ingredient = ingredient.substring(3);
