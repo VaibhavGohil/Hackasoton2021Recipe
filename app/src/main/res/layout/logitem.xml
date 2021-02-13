@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:paddingLeft="2dp"
+        android:paddingTop="2dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="2dp"
+        android:text="@string/textview"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        tools:text="Date" />
+
+    <TextView
+        android:id="@+id/ingred"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:paddingLeft="2dp"
+        android:paddingTop="2dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="2dp"
+        android:text="@string/textview"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        tools:text="Ingredients" />
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rating"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/deletebutton"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        app:srcCompat="@drawable/ic_baseline_close_24"
+        android:contentDescription="@string/todo" />
+
+</LinearLayout>

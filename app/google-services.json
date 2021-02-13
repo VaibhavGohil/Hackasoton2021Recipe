@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "487310571112",
+    "project_id": "hackasoton2021recipe",
+    "storage_bucket": "hackasoton2021recipe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487310571112:android:a144d37aed4c5a4449eddd",
+        "android_client_info": {
+          "package_name": "com.example.hackasoton2021recipe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487310571112-5iqkmpn5b4l2qjlgus1hekl8vq7lk9f5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCkmqfCpqN-wYLR8NWLFrrtNvKXKxFCgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487310571112-5iqkmpn5b4l2qjlgus1hekl8vq7lk9f5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
