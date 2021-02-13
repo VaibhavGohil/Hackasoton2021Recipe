@@ -43,9 +43,9 @@
 
     <ImageButton
         android:id="@+id/deletebutton"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        app:srcCompat="@drawable/ic_baseline_close_24"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/deletebutton"
         android:contentDescription="@string/todo" />
 
 </LinearLayout>
