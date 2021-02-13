@@ -69,7 +69,7 @@ public class BarcodeApi extends Application
     private void getIngredientsFromBarcode(String barcode, Context c, CountDownLatch latch){
         jsonResponses = new ArrayList<>();
 
-        String url = "https://uk.openfoodfacts.org/api/v0/product/3017620422003.json?fields=ingredients_hierarchy";
+        String url = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json?fields=ingredients_hierarchy";
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
