@@ -44,9 +44,9 @@ public class BarcodeScanner extends Fragment {
                         List<String> strings = BarcodeApi.getInstance().barcodeConvertor(result.getText(),root.getContext());
                         String temp = "";
                         if(strings != null){
-                            for (String s:
-                                    strings) {
-                                temp = s + "," + temp;
+                            temp = strings.get(0);
+                            for (int i = 0; i < strings.size();i++) {
+                                temp = temp + ", " + strings.get(i);
                             }
                             txt.setText(temp);
                         }

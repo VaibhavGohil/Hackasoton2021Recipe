@@ -26,6 +26,7 @@ public class FireBaseService extends Application {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<DiaryLog> dlogs = new ArrayList<>();
     private List<String> ingredients = new ArrayList<>();
+    private List<String> productNames = new ArrayList<>();
     private boolean loaded = false;
     private TreeMap<String, Integer> occurrences = new TreeMap<>();
 
@@ -62,6 +63,7 @@ public class FireBaseService extends Application {
                             temp.path = d.getReference().getId();
                             temp.date = d.get("date").toString();
                             temp.ingredients = (List<String>) d.get("ingred");
+                            temp.productName = (List<String>) d.get("productNames");
                             temp.rating = d.get("rating").toString();
                             dlogs.add(temp);
                             System.out.println(dlogs.size());
@@ -95,19 +97,30 @@ public class FireBaseService extends Application {
     }
 
 
-    public void sendLog(String date, ArrayList<String> ingredients, String rating){
+    public void sendLog(String date, ArrayList<String> ingredients,  ArrayList<String> productNames, String rating){
         Map<String, Object> log = new HashMap<>();
         Random random = new Random();
+        ArrayList<String> tempIngred = new ArrayList<>();
+        ArrayList<String> tempProds = new ArrayList<>();
         log.put("date",  (random.nextInt(30) + 1) + "/06/2021");
-        String temp = String.valueOf(random.nextInt(20));
-        if(!this.ingredients.contains(temp)){
-            this.ingredients.add(temp);
-            sendNewIngred(null);
+        for (String s: ingredients) {
+            if(!this.ingredients.contains(s)){
+                this.ingredients.add(s);
+            }
+            tempIngred.add(s);
         }
-        ArrayList<String> temp2 = new ArrayList<>();
-        temp2.add(temp);
-        log.put("ingred", temp2);
-        log.put("rating", random.nextInt(5) + 10);
+        sendNewIngred(this.ingredients);
+        for (String s: productNames) {
+            if(!this.productNames.contains(s)){
+                this.productNames.add(s);
+            }
+            tempProds.add(s);
+        }
+        sendNewProductNames(this.productNames);
+
+        log.put("ingred", tempIngred);
+        log.put("productNames", tempProds);
+        log.put("rating", (random.nextInt(5) > 2)? "Yes" : "No");
 
         // Add a new document with a generated ID
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Details").collection("Logs")
@@ -127,13 +140,23 @@ public class FireBaseService extends Application {
                 });
     }
 
-    public void sendNewIngred(ArrayList<String> newIngreds){
+    public void sendNewIngred(List<String> newIngreds){
         Map<String, Object> ingred = new HashMap<>();
         ingred.put("ingreds", ingredients);
 
 
         // Add a new document with a generated ID
-        db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Ingred").update(ingred);
+        db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("ingred").update(ingred);
+        System.out.println("Updated");
+    }
+
+    public void sendNewProductNames(List<String> newProductNames){
+        Map<String, Object> newNames = new HashMap<>();
+        newNames.put("productNames", productNames);
+
+
+        // Add a new document with a generated ID
+        db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("productNames").update(newNames);
         System.out.println("Updated");
     }
 
