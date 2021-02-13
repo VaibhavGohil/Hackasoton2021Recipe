@@ -12,19 +12,45 @@
     android:background="@drawable/logbox"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/date"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="37dp"
-        android:paddingLeft="2dp"
-        android:paddingTop="10dp"
-        android:paddingRight="2dp"
-        android:paddingBottom="2dp"
-        android:text="@string/textview"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:text="Date" />
+        android:layout_height="match_parent"
+        android:paddingRight="20dp"
+        android:paddingLeft="50dp">
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="15dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:text="@string/textview"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="Date" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":  "/>
+
+        <TextView
+            android:id="@+id/productname"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:paddingLeft="2dp"
+            android:paddingTop="10dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:text="@string/textview"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Product Name" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/ingred"
