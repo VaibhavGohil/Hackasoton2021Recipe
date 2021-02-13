@@ -132,6 +132,11 @@ public class FireBaseService extends Application {
 
     public void clear(){
         dlogs = new ArrayList<DiaryLog>();
+        occurrences = new TreeMap<>();
+        nonOccurrences = new TreeMap<>();
+        result = new ArrayList<>();
+        ingredients = new ArrayList<>();
+        productNames = new ArrayList<>();
     }
 
 
@@ -292,6 +297,7 @@ public class FireBaseService extends Application {
     public DashboardFragment getDashboardFragment(){
         return dashboardFragment;
     }
+
 
 }
 
