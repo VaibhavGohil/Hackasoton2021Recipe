@@ -23,7 +23,8 @@ import java.util.Random;
 
 public class FireBaseService extends Application {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private ArrayList<DiaryLog> qds = new ArrayList<>();
+    private List<DiaryLog> dlogs = new ArrayList<>();
+    private List<String> ingredients = new ArrayList<>();
     private boolean loaded = false;
 
     @Override
@@ -56,40 +57,47 @@ public class FireBaseService extends Application {
                             DiaryLog temp = new DiaryLog();
                             temp.path = d.getReference().getId();
                             temp.date = d.get("date").toString();
-                            temp.inngredients = d.get("ingred").toString();
+                            temp.inngredients = (List<String>) d.get("ingred");
                             temp.rating = d.get("rating").toString();
-                            qds.add(temp);
-                            System.out.println(qds.size());
+                            dlogs.add(temp);
+                            System.out.println(dlogs.size());
                         }
                     }
                 });
         loaded = true;
-        System.out.println(loaded + " "+ qds.size());
+        System.out.println(loaded + " "+ dlogs.size());
     }
 
     public boolean getLoaded(){
         return loaded;
     }
 
-    public  ArrayList<DiaryLog> getData(){
-        return qds;
+    public  List<DiaryLog> getData(){
+        return dlogs;
     }
 
     public void clear(){
-        qds = new ArrayList<DiaryLog>();
+        dlogs = new ArrayList<DiaryLog>();
     }
 
 
-    public void sendLog(){
-        Map<String, Object> user = new HashMap<>();
+    public void sendLog(String date, ArrayList<String> ingredients, String rating){
+        Map<String, Object> log = new HashMap<>();
         Random random = new Random();
-        user.put("date",  (random.nextInt(30) + 1) + "/06/2021");
-        user.put("ingred", "temp");
-        user.put("rating", random.nextInt(5) + 10);
+        log.put("date",  (random.nextInt(30) + 1) + "/06/2021");
+        String temp = String.valueOf(random.nextInt(20));
+        if(!this.ingredients.contains(temp)){
+            this.ingredients.add(temp);
+            sendNewIngred(null);
+        }
+        ArrayList<String> temp2 = new ArrayList<>();
+        temp2.add(temp);
+        log.put("ingred", temp2);
+        log.put("rating", random.nextInt(5) + 10);
 
         // Add a new document with a generated ID
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Details").collection("Logs")
-                .add(user)
+                .add(log)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -104,6 +112,65 @@ public class FireBaseService extends Application {
                     }
                 });
     }
+
+    public void sendNewIngred(ArrayList<String> newIngreds){
+        Map<String, Object> ingred = new HashMap<>();
+        ingred.put("ingreds", ingredients);
+
+
+        // Add a new document with a generated ID
+        db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Ingred").update(ingred);
+
+    }
+
+    public void checkIngredDoc(){
+        db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        boolean exists = false;
+                        List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot d : list) {
+                            if(d.getBoolean("exists")){
+                                exists = true;
+                                ingredients = (ArrayList<String>) d.get("ingreds");
+                                break;
+                            }
+                        }
+                        if(!exists){
+                            createIngred();
+                        }
+                    }
+                });
+        System.out.println("Ingred: " + ingredients.size());
+    }
+
+    public void createIngred(){
+        Map<String, Object> ingred = new HashMap<>();
+        ArrayList<String> temp = new ArrayList<>();
+        ingred.put("exists",true);
+        ingred.put("ingreds", temp);
+
+
+        // Add a new document with a generated ID
+        db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString())
+                .add(ingred)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(null, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        FireBaseService.getInstance().refresh();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(null, "Error adding document", e);
+                    }
+                });
+    }
+
+
 
     public void deleteLog(String path){
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Details").collection("Logs").document(path).delete();

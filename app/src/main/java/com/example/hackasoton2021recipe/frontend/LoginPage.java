@@ -119,6 +119,7 @@ public class LoginPage extends AppCompatActivity {
     }
 
     private void mainActivity(){
+        FireBaseService.getInstance().checkIngredDoc();
         FireBaseService.getInstance().readData();
         Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
         startActivity(intent);

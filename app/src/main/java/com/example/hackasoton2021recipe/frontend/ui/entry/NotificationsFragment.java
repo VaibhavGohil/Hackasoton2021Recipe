@@ -42,7 +42,7 @@ public class NotificationsFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FireBaseService.getInstance().sendLog();
+                FireBaseService.getInstance().sendLog(null,null,null);
             }
         });
         return root;

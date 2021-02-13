@@ -16,11 +16,12 @@ import com.example.hackasoton2021recipe.backend.DiaryLog;
 import com.example.hackasoton2021recipe.backend.FireBaseService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<DiaryLog> logs;
+    List<DiaryLog> logs;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView date;
@@ -38,7 +39,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
         }
     }
 
-    public LogAdapter(Context context, ArrayList<DiaryLog> logs){
+    public LogAdapter(Context context, List<DiaryLog> logs){
         this.context = context;
         this.logs = logs;
     }
@@ -55,7 +56,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull LogAdapter.ViewHolder holder, int position) {
         holder.date.setText(logs.get(position).date);
-        holder.ingreds.setText(logs.get(position).inngredients);
+        holder.ingreds.setText(logs.get(position).inngredients.toString());
         holder.rating.setText(logs.get(position).rating);
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
