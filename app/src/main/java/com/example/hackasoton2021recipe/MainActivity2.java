@@ -26,11 +26,7 @@ public class MainActivity2 extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        FireBaseService.getInstance().readData();
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
     }
 
 }

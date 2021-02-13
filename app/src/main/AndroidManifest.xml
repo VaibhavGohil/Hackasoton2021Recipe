@@ -11,7 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hackasoton2021Recipe"
         tools:ignore="Instantiatable">
-        <activity android:name=".MainActivity2">
+        <activity
+            android:name=".MainActivity2"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar">
+        </activity>
+        <activity android:name=".frontend.LoginPage"
+            android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar">>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,9 +1,11 @@
-package com.example.hackasoton2021recipe.frontend.ui.home;
+package com.example.hackasoton2021recipe.frontend.ui.logs;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hackasoton2021recipe.R;
 import com.example.hackasoton2021recipe.backend.DiaryLog;
+import com.example.hackasoton2021recipe.backend.FireBaseService;
+
 import java.util.ArrayList;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
@@ -21,12 +25,15 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView date;
         TextView ingreds;
+        TextView rating;
+        ImageButton delete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.date);
             ingreds = itemView.findViewById(R.id.ingred);
-
+            rating = itemView.findViewById(R.id.rating);
+            delete = itemView.findViewById(R.id.deletebutton);
 
         }
     }
@@ -49,6 +56,15 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull LogAdapter.ViewHolder holder, int position) {
         holder.date.setText(logs.get(position).date);
         holder.ingreds.setText(logs.get(position).inngredients);
+        holder.rating.setText(logs.get(position).rating);
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyItemRemoved(position);
+                notifyDataSetChanged();
+                FireBaseService.getInstance().deleteLog(logs.get(position).path);
+            }
+        });
     }
 
     @Override
