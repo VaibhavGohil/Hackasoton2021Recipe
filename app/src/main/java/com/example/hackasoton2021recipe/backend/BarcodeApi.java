@@ -107,25 +107,6 @@ public class BarcodeApi extends Application
                     }
                 }).start();
 
-
-
-        /* JUST IN CASE
-        HttpsURLConnection connection = null;
-        try {
-            connection = (HttpsURLConnection) url.openConnection();
-            connection.setRequestProperty("User-Agent", "HackaSoton - Android - Version 11.0");
-            connection.setRequestProperty("accept", "application/json");
-            InputStream in = new BufferedInputStream(connection.getInputStream());
-            readstream(in);
-
-
-            System.out.println(response.body());
-        }
-        catch (Exception e){
-            connection.disconnect();
-            return null;
-        }
-        */
     }
 
     public List<String> getJsonResponses() {
