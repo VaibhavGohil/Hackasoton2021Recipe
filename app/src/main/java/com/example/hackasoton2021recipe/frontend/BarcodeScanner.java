@@ -46,7 +46,7 @@ public class BarcodeScanner extends Fragment {
                         if(strings != null){
                             for (String s:
                                     strings) {
-                                temp = temp + ", " + s;
+                                temp = s + "," + temp;
                             }
                             txt.setText(temp);
                         }
