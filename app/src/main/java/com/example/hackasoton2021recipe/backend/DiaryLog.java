@@ -6,6 +6,6 @@ import java.util.List;
 public class DiaryLog {
         public String path;
         public String date;
-        public List<String> inngredients;
+        public List<String> ingredients;
         public String rating;
 }

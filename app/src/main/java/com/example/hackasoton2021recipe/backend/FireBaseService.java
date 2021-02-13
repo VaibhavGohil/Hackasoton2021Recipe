@@ -26,6 +26,7 @@ public class FireBaseService extends Application {
     private List<DiaryLog> dlogs = new ArrayList<>();
     private List<String> ingredients = new ArrayList<>();
     private boolean loaded = false;
+    private HashMap<String, Integer> occurrences = new HashMap<>();
 
     @Override
     public void onCreate() {
@@ -45,7 +46,9 @@ public class FireBaseService extends Application {
         return fbs;
     }
 
-
+    public HashMap<String, Integer> getOccurrences() {
+        return occurrences;
+    }
 
     public void readData(){
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Details").collection("Logs").get()
@@ -57,10 +60,20 @@ public class FireBaseService extends Application {
                             DiaryLog temp = new DiaryLog();
                             temp.path = d.getReference().getId();
                             temp.date = d.get("date").toString();
-                            temp.inngredients = (List<String>) d.get("ingred");
+                            temp.ingredients = (List<String>) d.get("ingred");
                             temp.rating = d.get("rating").toString();
                             dlogs.add(temp);
                             System.out.println(dlogs.size());
+                            if (temp.rating.equals("Yes")) {
+                                for (String ingredient: temp.ingredients) {
+                                    if (occurrences.containsKey(ingredient)) {
+                                        Integer value = occurrences.get(ingredient);
+                                        occurrences.replace(ingredient, value, value + 1);
+                                    } else {
+                                        occurrences.put(ingredient, 1);
+                                    }
+                                }
+                            }
                         }
                     }
                 });

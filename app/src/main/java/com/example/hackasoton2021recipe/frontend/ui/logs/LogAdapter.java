@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ import com.example.hackasoton2021recipe.R;
 import com.example.hackasoton2021recipe.backend.DiaryLog;
 import com.example.hackasoton2021recipe.backend.FireBaseService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
@@ -56,7 +54,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull LogAdapter.ViewHolder holder, int position) {
         holder.date.setText(logs.get(position).date);
-        holder.ingreds.setText(logs.get(position).inngredients.toString());
+        holder.ingreds.setText(logs.get(position).ingredients.toString());
         holder.rating.setText(logs.get(position).rating);
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
