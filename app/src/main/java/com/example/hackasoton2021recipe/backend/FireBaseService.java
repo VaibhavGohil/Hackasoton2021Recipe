@@ -1,5 +1,6 @@
 package com.example.hackasoton2021recipe.backend;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,9 +22,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FireBaseService {
+public class FireBaseService extends Application {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private ArrayList<user> qds = new ArrayList<>();
+    private ArrayList<DiaryLog> qds = new ArrayList<>();
+    private boolean loaded = false;
+
+    @Override
+    public void onCreate() {
+        this.readData();
+        super.onCreate();
+    }
+
+    private static FireBaseService   fbs;
+    private FireBaseService(){
+
+        //ToDo here
+
+    }
+    public static FireBaseService getInstance()
+    {
+        if (fbs == null)
+        {
+            fbs = new FireBaseService();
+        }
+        return fbs;
+    }
 
     public void addData(){
         Map<String, Object> user = new HashMap<>();
@@ -54,40 +77,28 @@ public class FireBaseService {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        // after getting the data we are calling on success method
-                        // and inside this method we are checking if the received
-                        // query snapshot is empty or not.
-                        if (!queryDocumentSnapshots.isEmpty()) {
-
-                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                            for (DocumentSnapshot d : list) {
-                                user temp = new user();
-                                temp.first = d.get("first").toString();
-                                temp.last = d.get("last").toString();
-                                temp.born = d.get("born").toString();
-                                qds.add(temp);
-                                System.out.println(qds.size());
-                            }
-
-                        } else {
-                            // if the snapshot is empty we are displaying a toast message.
+                        List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot d : list) {
+                            DiaryLog temp = new DiaryLog();
+                            temp.first = d.get("first").toString();
+                            temp.last = d.get("last").toString();
+                            temp.born = d.get("born").toString();
+                            qds.add(temp);
+                            System.out.println(qds.size());
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // if we do not get any data or any error we are displaying
-                // a toast message that we do not get any data
-//                Toast.makeText(CourseDetails.this, "Fail to get the data.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                });
+        loaded = true;
+        System.out.println(loaded + " "+ qds.size());
+    }
 
+    public boolean getLoaded(){
+        return loaded;
+    }
+
+    public  ArrayList<DiaryLog> getData(){
+        return qds;
     }
 
 }
 
-class user{
-    public String first;
-    public String last;
-    public String born;
-}
