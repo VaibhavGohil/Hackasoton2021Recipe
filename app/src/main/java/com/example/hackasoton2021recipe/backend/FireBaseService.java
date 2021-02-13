@@ -29,14 +29,11 @@ public class FireBaseService extends Application {
 
     @Override
     public void onCreate() {
-        this.readData();
         super.onCreate();
     }
 
     private static FireBaseService   fbs;
     private FireBaseService(){
-
-        //ToDo here
 
     }
     public static FireBaseService getInstance()
