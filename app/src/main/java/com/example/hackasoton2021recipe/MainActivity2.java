@@ -1,10 +1,12 @@
 package com.example.hackasoton2021recipe;
 
 import android.os.Bundle;
+import android.view.Window;
 
 import com.example.hackasoton2021recipe.backend.FireBaseService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -27,6 +29,8 @@ public class MainActivity2 extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
         FireBaseService.getInstance().readData();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
     }
 
 }
