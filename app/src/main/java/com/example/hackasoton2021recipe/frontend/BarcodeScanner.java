@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -17,6 +18,7 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.hackasoton2021recipe.R;
 import com.example.hackasoton2021recipe.backend.BarcodeApi;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.Result;
 
 import java.util.List;
@@ -49,6 +51,11 @@ public class BarcodeScanner extends Fragment {
                                 temp = temp + ", " + strings.get(i);
                             }
                             txt.setText(temp);
+                        }{
+                            RelativeLayout layout = (RelativeLayout) root.findViewById(R.id.rellayout);
+                            Snackbar snackbar = Snackbar
+                                    .make(layout, "Sorry Product Not!!! Please Try Again!!!", Snackbar.LENGTH_LONG);
+                            snackbar.show();
                         }
                     }
                 });

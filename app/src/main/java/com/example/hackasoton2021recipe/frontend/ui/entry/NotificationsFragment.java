@@ -15,6 +15,7 @@ import com.example.hackasoton2021recipe.R;
 import com.example.hackasoton2021recipe.backend.BarcodeApi;
 import com.example.hackasoton2021recipe.backend.FireBaseService;
 import com.example.hackasoton2021recipe.frontend.LoginPage;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -47,13 +48,19 @@ public class NotificationsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 List<String> jsonArray = BarcodeApi.getInstance().getJsonResponses();
-                ArrayList<String> product = new ArrayList<>();
-                product.add(jsonArray.get(0));
-                ArrayList<String> ingred = new ArrayList<>();
-                for (int i = 1; i<jsonArray.size();i++){
-                    ingred.add(jsonArray.get(i));
+                if(jsonArray != null){
+                    ArrayList<String> product = new ArrayList<>();
+                    product.add(jsonArray.get(0));
+                    ArrayList<String> ingred = new ArrayList<>();
+                    for (int i = 1; i<jsonArray.size();i++){
+                        ingred.add(jsonArray.get(i));
+                    }
+                    FireBaseService.getInstance().sendLog(null,ingred,product,null);
+                } else {
+                    Snackbar snackbar = Snackbar
+                            .make(v, "Sorry Product Not!!! Please Try Again!!!", Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
-                FireBaseService.getInstance().sendLog(null,ingred,product,null);
             }
         });
         return root;
