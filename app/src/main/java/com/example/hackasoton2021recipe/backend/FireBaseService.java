@@ -219,7 +219,8 @@ public class FireBaseService extends Application {
 
 
 
-    public void deleteLog(String path){
+    public void deleteLog(String path,int index){
+        this.dlogs.remove(index);
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Details").collection("Logs").document(path).delete();
         this.refresh();
     }

@@ -59,9 +59,9 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FireBaseService.getInstance().deleteLog(logs.get(position).path,position);
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
-                FireBaseService.getInstance().deleteLog(logs.get(position).path);
             }
         });
     }
