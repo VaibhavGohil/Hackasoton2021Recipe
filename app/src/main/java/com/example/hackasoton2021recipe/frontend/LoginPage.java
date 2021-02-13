@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.hackasoton2021recipe.MainActivity2;
+import com.example.hackasoton2021recipe.backend.BarcodeApi;
 import com.example.hackasoton2021recipe.backend.FireBaseService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -30,6 +31,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.concurrent.CountDownLatch;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -121,6 +124,19 @@ public class LoginPage extends AppCompatActivity {
     private void mainActivity(){
         FireBaseService.getInstance().checkIngredDoc();
         FireBaseService.getInstance().readData();
+
+        //Temp code
+
+        //scan barcode
+        CountDownLatch latch = new CountDownLatch(1);
+        BarcodeApi.getInstance().getIngredientsFromBarcode("1",this, latch);
+        while(latch.getCount() > 0){
+            //DO LOADY STUFF HERE, WAITING FOR BARCODE SCANNER TO RETURN
+        }
+        if (BarcodeApi.getInstance().getJsonResponses() != null){
+            System.out.println(BarcodeApi.getInstance().getJsonResponses().toString());
+        }
+
         Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
         startActivity(intent);
     }

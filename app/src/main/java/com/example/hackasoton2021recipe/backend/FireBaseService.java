@@ -120,7 +120,7 @@ public class FireBaseService extends Application {
 
         // Add a new document with a generated ID
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Ingred").update(ingred);
-
+        System.out.println("Updated");
     }
 
     public void checkIngredDoc(){

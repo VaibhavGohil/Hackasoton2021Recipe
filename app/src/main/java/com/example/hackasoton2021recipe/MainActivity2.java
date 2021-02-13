@@ -32,20 +32,6 @@ public class MainActivity2 extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
 
-
-        //EXAMPLE BARCODE USE
-        BarcodeApi bapi = new BarcodeApi();
-        //scan barcode
-        CountDownLatch latch = new CountDownLatch(1);
-        bapi.getIngredientsFromBarcode("1",this, latch);
-        while(latch.getCount() > 0){
-            //DO LOADY STUFF HERE, WAITING FOR BARCODE SCANNER TO RETURN
-            System.out.println("WAITING____________________________________________________________________________");
-        }
-        if (bapi.getJsonResponses() != null){
-            System.out.println(bapi.getJsonResponses().toString());
-        }
-        System.out.println("FINISHED__________________________________________________");
     }
 
 }

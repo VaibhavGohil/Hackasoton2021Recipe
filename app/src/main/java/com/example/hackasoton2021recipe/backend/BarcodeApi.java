@@ -1,5 +1,6 @@
 package com.example.hackasoton2021recipe.backend;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.fragment.app.Fragment;
@@ -27,7 +28,22 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 
-public class BarcodeApi {
+public class BarcodeApi extends Application
+
+{
+
+    private static BarcodeApi bca;
+    private BarcodeApi(){
+
+    }
+    public static BarcodeApi getInstance()
+    {
+        if (bca == null)
+        {
+            bca = new BarcodeApi();
+        }
+        return bca;
+    }
 
     private List<String> jsonResponses = new ArrayList<>();//check this to get fetched data
     //Countdown latch to stop threads messing with eachother (this is probs dumb but makes it work)
@@ -50,19 +66,13 @@ public class BarcodeApi {
         new Thread(
                 ()->{
                     try {
-                        client.setReadTimeout(1, TimeUnit.MILLISECONDS);
-                        client.setRetryOnConnectionFailure(false);
                         String temp = client.newCall(request).execute().body().string();
-                        System.out.println("_____________________________________");
-                        System.out.println(temp);
                         JSONObject response = new JSONObject(temp);
                         System.out.println(response.toString());
                         JSONArray jsonArray = response.getJSONObject("product").getJSONArray("ingredients_hierarchy");
                         for(int i = 0; i < jsonArray.length(); i++){
                             String ingredient = jsonArray.getString(i);
                             ingredient = ingredient.substring(3);
-                            System.out.println("_____________________________________");
-                            System.out.println(ingredient);
                             jsonResponses.add(ingredient);
                         }
                         latch.countDown();
