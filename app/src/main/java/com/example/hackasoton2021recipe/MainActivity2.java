@@ -3,6 +3,7 @@ package com.example.hackasoton2021recipe;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.example.hackasoton2021recipe.backend.BarcodeApi;
 import com.example.hackasoton2021recipe.backend.FireBaseService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -12,6 +13,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.util.concurrent.CountDownLatch;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -27,6 +30,22 @@ public class MainActivity2 extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
+
+
+
+        //EXAMPLE BARCODE USE
+        BarcodeApi bapi = new BarcodeApi();
+        //scan barcode
+        CountDownLatch latch = new CountDownLatch(1);
+        bapi.getIngredientsFromBarcode("1",this, latch);
+        while(latch.getCount() > 0){
+            //DO LOADY STUFF HERE, WAITING FOR BARCODE SCANNER TO RETURN
+            System.out.println("WAITING____________________________________________________________________________");
+        }
+        if (bapi.getJsonResponses() != null){
+            System.out.println(bapi.getJsonResponses().toString());
+        }
+        System.out.println("FINISHED__________________________________________________");
     }
 
 }
