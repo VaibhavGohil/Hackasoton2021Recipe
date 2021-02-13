@@ -12,10 +12,14 @@ import androidx.fragment.app.Fragment;
 
 import com.example.hackasoton2021recipe.MainActivity2;
 import com.example.hackasoton2021recipe.R;
+import com.example.hackasoton2021recipe.backend.BarcodeApi;
 import com.example.hackasoton2021recipe.backend.FireBaseService;
 import com.example.hackasoton2021recipe.frontend.LoginPage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationsFragment extends Fragment {
 
@@ -42,7 +46,14 @@ public class NotificationsFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FireBaseService.getInstance().sendLog(null,null,null);
+                List<String> jsonArray = BarcodeApi.getInstance().getJsonResponses();
+                ArrayList<String> product = new ArrayList<>();
+                product.add(jsonArray.get(0));
+                ArrayList<String> ingred = new ArrayList<>();
+                for (int i = 1; i<jsonArray.size();i++){
+                    ingred.add(jsonArray.get(i));
+                }
+                FireBaseService.getInstance().sendLog(null,ingred,product,null);
             }
         });
         return root;

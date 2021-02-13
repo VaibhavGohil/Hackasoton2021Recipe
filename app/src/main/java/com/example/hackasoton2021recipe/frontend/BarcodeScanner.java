@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import com.example.hackasoton2021recipe.R;
 import com.example.hackasoton2021recipe.backend.BarcodeApi;
 import com.google.zxing.Result;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.List;
 
 
 public class BarcodeScanner extends Fragment {
@@ -35,15 +34,22 @@ public class BarcodeScanner extends Fragment {
         View root = inflater.inflate(R.layout.fragment_barcode_scanner, container, false);
         CodeScannerView scannerView = root.findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(activity, scannerView);
-        txt = root.findViewById(R.id.textView3);
+        txt = root.findViewById(R.id.ingredientScanned);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull final Result result) {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CountDownLatch latch = new CountDownLatch(1);
-                        BarcodeApi.getInstance().getIngredientsFromBarcode(result.getText(),root.getContext(),latch);
+                        List<String> strings = BarcodeApi.getInstance().barcodeConvertor(result.getText(),root.getContext());
+                        String temp = "";
+                        if(strings != null){
+                            temp = strings.get(0);
+                            for (int i = 0; i < strings.size();i++) {
+                                temp = temp + ", " + strings.get(i);
+                            }
+                            txt.setText(temp);
+                        }
                     }
                 });
             }
