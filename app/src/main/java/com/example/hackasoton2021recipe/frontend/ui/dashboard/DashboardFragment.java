@@ -24,8 +24,6 @@ public class DashboardFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        TextView txt = root.findViewById(R.id.barcodecheck);
-        txt.setText(BarcodeApi.getInstance().getJsonResponses().get(0));
         return root;
     }
 }

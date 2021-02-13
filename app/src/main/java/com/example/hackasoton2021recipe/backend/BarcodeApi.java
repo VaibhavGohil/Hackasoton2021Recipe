@@ -32,6 +32,7 @@ public class BarcodeApi extends Application
 
 {
 
+    private boolean loaded = false;
     private static BarcodeApi bca;
     private BarcodeApi(){
 
@@ -45,14 +46,14 @@ public class BarcodeApi extends Application
         return bca;
     }
 
-    private List<String> jsonResponses = new ArrayList<>();//check this to get fetched data
+    private List<String> jsonResponses;//check this to get fetched data
     //Countdown latch to stop threads messing with eachother (this is probs dumb but makes it work)
     //when using this class pass a coundownlatch of 1, have a while loop which checks value of latch and then do a loading screen in while loop
     //once data is fetched the latch will set to 0
 
     //Function which returns a list of ingredients from a products barcode
     public void getIngredientsFromBarcode(String barcode, Context c, CountDownLatch latch){
-        jsonResponses.clear();
+        jsonResponses = new ArrayList<>();
 
         String url = "https://uk.openfoodfacts.org/api/v0/product/3017620422003.json?fields=ingredients_hierarchy";
         OkHttpClient client = new OkHttpClient();
@@ -75,6 +76,7 @@ public class BarcodeApi extends Application
                             ingredient = ingredient.substring(3);
                             jsonResponses.add(ingredient);
                         }
+                        loaded = true;
                         latch.countDown();
 
                     } catch (JSONException | IOException e) {
@@ -84,6 +86,8 @@ public class BarcodeApi extends Application
 
                     }
                 }).start();
+
+
 
         /* JUST IN CASE
         HttpsURLConnection connection = null;
@@ -106,6 +110,9 @@ public class BarcodeApi extends Application
 
     public List<String> getJsonResponses() {
         return jsonResponses;
+    }
+    public boolean getLoaded() {
+        return loaded;
     }
 
 }
