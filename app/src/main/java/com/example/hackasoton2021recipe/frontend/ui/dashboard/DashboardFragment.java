@@ -30,6 +30,7 @@ public class DashboardFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        FireBaseService.getInstance().addDashboard(this);
         recyclerView = root.findViewById(R.id.dashRec);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this.getContext());
@@ -39,4 +40,9 @@ public class DashboardFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         return root;
     }
+
+    public void updateView(){
+        adapter.notifyDataSetChanged();
+    }
+
 }
