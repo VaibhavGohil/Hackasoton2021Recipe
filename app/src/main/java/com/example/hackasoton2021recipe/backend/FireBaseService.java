@@ -254,5 +254,18 @@ public class FireBaseService extends Application {
         this.clear();
         this.readData();
     }
+
+    //calculate percentages of reaction occurrences in relation to number of times an ingredient is consumed
+    public TreeMap<String, Float> getIngredientPercentages(){
+        TreeMap<String, Float> result= new TreeMap<>();
+
+        for (Map.Entry<String,Integer> ingredient : occurrences.entrySet()){
+            Float occurrence = Float.valueOf(ingredient.getValue());
+            Float nonOccurrence = Float.valueOf(nonOccurrences.get(ingredient.getKey()));
+            float percent = occurrence/ (occurrence + nonOccurrence);
+            if (percent > 0.5) result.put(ingredient.getKey(),percent);
+        }
+        return result;
+    }
 }
 
