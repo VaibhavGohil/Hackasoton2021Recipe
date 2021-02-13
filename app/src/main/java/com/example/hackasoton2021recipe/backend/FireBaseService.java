@@ -20,13 +20,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 public class FireBaseService extends Application {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<DiaryLog> dlogs = new ArrayList<>();
     private List<String> ingredients = new ArrayList<>();
     private boolean loaded = false;
-    private HashMap<String, Integer> occurrences = new HashMap<>();
+    private TreeMap<String, Integer> occurrences = new TreeMap<>();
 
     @Override
     public void onCreate() {
@@ -46,7 +47,7 @@ public class FireBaseService extends Application {
         return fbs;
     }
 
-    public HashMap<String, Integer> getOccurrences() {
+    public TreeMap<String, Integer> getOccurrences() {
         return occurrences;
     }
 
