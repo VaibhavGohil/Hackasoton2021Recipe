@@ -69,7 +69,6 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
                     FireBaseService.getInstance().updateRating(logs.get(position).path,false,position);
                 }
                 notifyItemChanged(position);
-                FireBaseService.getInstance().refresh();
                 FireBaseService.getInstance().getDashboardFragment().updateView();
             }
         });
