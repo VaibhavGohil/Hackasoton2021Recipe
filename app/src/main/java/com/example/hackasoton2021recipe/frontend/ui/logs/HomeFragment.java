@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hackasoton2021recipe.R;
 import com.example.hackasoton2021recipe.backend.FireBaseService;
 
+import java.util.List;
+
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
@@ -28,6 +30,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
+
 
         adapter = new LogAdapter(getContext(), FireBaseService.getInstance().getData());
         recyclerView.setAdapter(adapter);

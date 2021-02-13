@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.hackasoton2021recipe.frontend.ui.dashboard.DashboardFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,8 +29,10 @@ public class FireBaseService extends Application {
     private List<String> ingredients = new ArrayList<>();
     private List<String> productNames = new ArrayList<>();
     private boolean loaded = false;
+    private  ArrayList<OccurancePercentage> result = new ArrayList<>();
     private TreeMap<String, Integer> occurrences = new TreeMap<>();
     private TreeMap<String, Integer> nonOccurrences = new TreeMap<>();
+    private DashboardFragment dashboardFragment;
 
     @Override
     public void onCreate() {
@@ -69,10 +72,10 @@ public class FireBaseService extends Application {
                             temp.date = d.get("date").toString();
                             temp.ingredients = (List<String>) d.get("ingred");
                             temp.productName = (List<String>) d.get("productNames");
-                            temp.rating = d.get("rating").toString();
+                            temp.rating = (Boolean) d.get("rating");
                             dlogs.add(temp);
                             System.out.println(dlogs.size());
-                            if (temp.rating.equals("Yes")) {
+                            if (temp.rating) {
                                 for (String ingredient: temp.ingredients) {
                                     ingredient.toLowerCase();
                                     if (occurrences.containsKey(ingredient)) {
@@ -112,6 +115,7 @@ public class FireBaseService extends Application {
                                 }
                             }
                         }
+                        getIngredientPercentages();
                     }
                 });
         loaded = true;
@@ -124,6 +128,7 @@ public class FireBaseService extends Application {
     public  List<DiaryLog> getData(){
         return dlogs;
     }
+    public ArrayList<OccurancePercentage> getPercentages(){ return this.result;}
 
     public void clear(){
         dlogs = new ArrayList<DiaryLog>();
@@ -153,7 +158,7 @@ public class FireBaseService extends Application {
 
         log.put("ingred", tempIngred);
         log.put("productNames", tempProds);
-        log.put("rating", (random.nextInt(5) > 2)? "Yes" : "No");
+        log.put("rating", false);
 
         // Add a new document with a generated ID
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Details").collection("Logs")
@@ -182,6 +187,14 @@ public class FireBaseService extends Application {
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("ingred").update(ingred);
         System.out.println("Updated");
     }
+
+    public void updateRating(String path, Boolean rating, int position){
+        Map<String, Object> newRating = new HashMap<>();
+        newRating.put("rating", rating);
+        dlogs.get(position).rating = rating;
+        db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Details").collection("Logs").document(path).update(newRating);
+    }
+
 
     public void sendNewProductNames(List<String> newProductNames){
         Map<String, Object> newNames = new HashMap<>();
@@ -255,17 +268,31 @@ public class FireBaseService extends Application {
         this.readData();
     }
 
-    //calculate percentages of reaction occurrences in relation to number of times an ingredient is consumed
-    public TreeMap<String, Float> getIngredientPercentages(){
-        TreeMap<String, Float> result= new TreeMap<>();
 
+    //calculate percentages of reaction occurrences in relation to number of times an ingredient is consumed
+    public void getIngredientPercentages(){
+        Log.d(null,"NULL OR NOT O" + occurrences);
+        Log.d(null,"NULL OR NOT " + nonOccurrences);
         for (Map.Entry<String,Integer> ingredient : occurrences.entrySet()){
             Float occurrence = Float.valueOf(ingredient.getValue());
-            Float nonOccurrence = Float.valueOf(nonOccurrences.get(ingredient.getKey()));
-            float percent = occurrence/ (occurrence + nonOccurrence);
-            if (percent > 0.5) result.put(ingredient.getKey(),percent);
+            Float nonOccurrence = (nonOccurrences == null) ? Float.valueOf(nonOccurrences.get(ingredient.getKey())) : 0;
+            Integer percent = Math.round((occurrence / (occurrence + nonOccurrence) * 100));
+            OccurancePercentage temp = new OccurancePercentage();
+            temp.occuranceName = ingredient.getKey();
+            temp.percentage = percent;
+            result.add(temp);
         }
-        return result;
     }
+
+    public void addDashboard(DashboardFragment df){
+        this.dashboardFragment = df;
+    }
+
+
+    public DashboardFragment getDashboardFragment(){
+        return dashboardFragment;
+    }
+
 }
+
 
