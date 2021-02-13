@@ -70,9 +70,16 @@ public class BarcodeApi extends Application
         jsonResponses = new ArrayList<>();
 
         String url = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json?fields=ingredients_hierarchy";
+        String url2 = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json?fields=product_name";
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
+                .addHeader("User-Agent", "HackaSoton - Android - Version 11.0")
+                .addHeader("accept", "application/json")
+                .build();
+
+        Request request2 = new Request.Builder()
+                .url(url2)
                 .addHeader("User-Agent", "HackaSoton - Android - Version 11.0")
                 .addHeader("accept", "application/json")
                 .build();
@@ -85,6 +92,12 @@ public class BarcodeApi extends Application
                         JSONObject response = new JSONObject(temp);
                         System.out.println("RESP: " + response.toString());
                         JSONArray jsonArray = response.getJSONObject("product").getJSONArray("ingredients_hierarchy");
+
+                        String temp2 = client.newCall(request2).execute().body().string();
+                        JSONObject response2 = new JSONObject(temp2);
+                        String name = response2.getJSONObject("product").getString("product_name");
+                        jsonResponses.add(name);
+
                         for(int i = 0; i < jsonArray.length(); i++){
                             String ingredient = jsonArray.getString(i);
                             ingredient = ingredient.substring(3);

@@ -60,7 +60,6 @@ public class FireBaseService extends Application {
                             temp.inngredients = (List<String>) d.get("ingred");
                             temp.rating = d.get("rating").toString();
                             dlogs.add(temp);
-                            System.out.println(dlogs.size());
                         }
                     }
                 });
@@ -120,7 +119,6 @@ public class FireBaseService extends Application {
 
         // Add a new document with a generated ID
         db.collection(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).document("Ingred").update(ingred);
-        System.out.println("Updated");
     }
 
     public void checkIngredDoc(){
@@ -142,7 +140,6 @@ public class FireBaseService extends Application {
                         }
                     }
                 });
-        System.out.println("Ingred: " + ingredients.size());
     }
 
     public void createIngred(){

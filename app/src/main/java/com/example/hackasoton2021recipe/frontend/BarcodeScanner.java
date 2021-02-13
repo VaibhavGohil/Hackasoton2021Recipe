@@ -43,11 +43,13 @@ public class BarcodeScanner extends Fragment {
                     public void run() {
                         List<String> strings = BarcodeApi.getInstance().barcodeConvertor(result.getText(),root.getContext());
                         String temp = "";
-                        for (String s:
-                             strings) {
-                            temp = temp + ", " + s;
+                        if(strings != null){
+                            for (String s:
+                                    strings) {
+                                temp = temp + ", " + s;
+                            }
+                            txt.setText(temp);
                         }
-                        txt.setText(temp);
                     }
                 });
             }
