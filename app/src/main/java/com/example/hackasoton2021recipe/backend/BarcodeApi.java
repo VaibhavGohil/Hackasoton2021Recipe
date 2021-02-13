@@ -1,5 +1,6 @@
 package com.example.hackasoton2021recipe.backend;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.fragment.app.Fragment;
@@ -27,18 +28,51 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 
-public class BarcodeApi {
+public class BarcodeApi extends Application
 
-    private List<String> jsonResponses = new ArrayList<>();//check this to get fetched data
+{
+
+    private boolean loaded = false;
+    private static BarcodeApi bca;
+    private BarcodeApi(){
+
+    }
+    public static BarcodeApi getInstance()
+    {
+        if (bca == null)
+        {
+            bca = new BarcodeApi();
+        }
+        return bca;
+    }
+
+    public List<String> barcodeConvertor(String barcode, Context c){
+        CountDownLatch latch = new CountDownLatch(1);
+        BarcodeApi.getInstance().getIngredientsFromBarcode(barcode,c,latch);
+        while(latch.getCount() > 0){
+            //DO LOADY STUFF HERE, WAITING FOR BARCODE SCANNER TO RETURN
+        }
+        if (BarcodeApi.getInstance().getJsonResponses() != null){
+            return BarcodeApi.getInstance().getJsonResponses();
+        }else {
+            return null;
+        }
+
+    }
+
+    private List<String> jsonResponses;//check this to get fetched data
     //Countdown latch to stop threads messing with eachother (this is probs dumb but makes it work)
     //when using this class pass a coundownlatch of 1, have a while loop which checks value of latch and then do a loading screen in while loop
     //once data is fetched the latch will set to 0
 
     //Function which returns a list of ingredients from a products barcode
-    public void getIngredientsFromBarcode(String barcode, Context c, CountDownLatch latch){
-        jsonResponses.clear();
+    private void getIngredientsFromBarcode(String barcode, Context c, CountDownLatch latch){
+        jsonResponses = new ArrayList<>();
 
-        String url = "https://uk.openfoodfacts.org/api/v0/product/3017620422003.json?fields=ingredients_hierarchy";
+        //String url = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json?fields=ingredients_hierarchy";
+        //String url2 = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json?fields=product_name";
+        String url = " https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
+
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -50,21 +84,19 @@ public class BarcodeApi {
         new Thread(
                 ()->{
                     try {
-                        client.setReadTimeout(1, TimeUnit.MILLISECONDS);
-                        client.setRetryOnConnectionFailure(false);
                         String temp = client.newCall(request).execute().body().string();
-                        System.out.println("_____________________________________");
-                        System.out.println(temp);
                         JSONObject response = new JSONObject(temp);
-                        System.out.println(response.toString());
+                        System.out.println("RESP: " + response.toString());
                         JSONArray jsonArray = response.getJSONObject("product").getJSONArray("ingredients_hierarchy");
+                        String name = response.getJSONObject("product").getString("product_name");
+                        jsonResponses.add(name);
+
                         for(int i = 0; i < jsonArray.length(); i++){
                             String ingredient = jsonArray.getString(i);
                             ingredient = ingredient.substring(3);
-                            System.out.println("_____________________________________");
-                            System.out.println(ingredient);
                             jsonResponses.add(ingredient);
                         }
+                        loaded = true;
                         latch.countDown();
 
                     } catch (JSONException | IOException e) {
@@ -74,6 +106,8 @@ public class BarcodeApi {
 
                     }
                 }).start();
+
+
 
         /* JUST IN CASE
         HttpsURLConnection connection = null;
@@ -96,6 +130,9 @@ public class BarcodeApi {
 
     public List<String> getJsonResponses() {
         return jsonResponses;
+    }
+    public boolean getLoaded() {
+        return loaded;
     }
 
 }

@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.hackasoton2021recipe.R;
+import com.example.hackasoton2021recipe.backend.BarcodeApi;
 
 public class DashboardFragment extends Fragment {
 

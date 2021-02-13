@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -15,12 +14,12 @@ import com.example.hackasoton2021recipe.R;
 import com.example.hackasoton2021recipe.backend.DiaryLog;
 import com.example.hackasoton2021recipe.backend.FireBaseService;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<DiaryLog> logs;
+    List<DiaryLog> logs;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView date;
@@ -38,7 +37,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
         }
     }
 
-    public LogAdapter(Context context, ArrayList<DiaryLog> logs){
+    public LogAdapter(Context context, List<DiaryLog> logs){
         this.context = context;
         this.logs = logs;
     }
@@ -55,14 +54,14 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull LogAdapter.ViewHolder holder, int position) {
         holder.date.setText(logs.get(position).date);
-        holder.ingreds.setText(logs.get(position).inngredients);
+        holder.ingreds.setText(logs.get(position).ingredients.toString());
         holder.rating.setText(logs.get(position).rating);
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FireBaseService.getInstance().deleteLog(logs.get(position).path,position);
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
-                FireBaseService.getInstance().deleteLog(logs.get(position).path);
             }
         });
     }
