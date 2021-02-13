@@ -69,11 +69,21 @@ public class FireBaseService extends Application {
                             System.out.println(dlogs.size());
                             if (temp.rating.equals("Yes")) {
                                 for (String ingredient: temp.ingredients) {
+                                    ingredient.toLowerCase();
                                     if (occurrences.containsKey(ingredient)) {
                                         Integer value = occurrences.get(ingredient);
                                         occurrences.replace(ingredient, value, value + 1);
                                     } else {
                                         occurrences.put(ingredient, 1);
+                                    }
+                                }
+                                for (String product: productNames) {
+                                    product.toLowerCase();
+                                    if (occurrences.containsKey(product)) {
+                                        Integer value = occurrences.get(product);
+                                        occurrences.replace(product, value, value + 1);
+                                    } else {
+                                        occurrences.put(product, 1);
                                     }
                                 }
                             }
