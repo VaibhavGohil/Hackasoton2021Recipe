@@ -49,6 +49,8 @@ public class BarcodeScanner extends Fragment {
                                 temp = temp + ", " + strings.get(i);
                             }
                             txt.setText(temp);
+                        } else{
+                            txt.setText("Product Not Found Sorry");
                         }
                     }
                 });
