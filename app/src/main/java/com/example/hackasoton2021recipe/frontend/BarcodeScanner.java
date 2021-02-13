@@ -56,7 +56,7 @@ public class BarcodeScanner extends Fragment {
                             RelativeLayout layout = (RelativeLayout) root.findViewById(R.id.rellayout);
                             txt.setText("");
                             Snackbar snackbar = Snackbar
-                                    .make(layout, "Sorry Product Not!!! Please Try Again!!!", Snackbar.LENGTH_LONG);
+                                    .make(layout, "Product Not Found. Please Try Again", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         }
                     }
