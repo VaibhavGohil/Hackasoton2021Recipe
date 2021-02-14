@@ -5,7 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/logbackground"
-    tools:context=".frontend.ui.logs.HomeFragment">
+    tools:context=".frontend.ui.logs.HomeFragment"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logtoppanel">
+    </ImageView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcView"
@@ -13,4 +20,5 @@
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="182dp"
         tools:layout_editor_absoluteY="211dp" />
+
 </LinearLayout>

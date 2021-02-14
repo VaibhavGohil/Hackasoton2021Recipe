@@ -23,7 +23,7 @@
         android:layout_below="@+id/scanner_view"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        android:text="@string/scan_something"
+        android:text="Scan Product Barcode"
         android:textColor="@color/black" />
 
     <Button
