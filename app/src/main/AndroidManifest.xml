@@ -27,7 +27,8 @@
             android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar">>
         </activity>
         <activity android:name=".frontend.LoginPage"
-            android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar">>
+            android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar"
+            tools:ignore="DuplicateActivity">>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
