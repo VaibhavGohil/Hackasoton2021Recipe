@@ -22,10 +22,6 @@
             android:name=".MainActivity2"
             android:label="@string/title_activity_main2"
             android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar"></activity>
-        <activity
-            android:name=".frontend.LoginPage"
-            android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar">>
-        </activity>
         <activity android:name=".frontend.LoginPage"
             android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar"
             tools:ignore="DuplicateActivity">>
