@@ -58,7 +58,7 @@ public class NotificationsFragment extends Fragment {
                     FireBaseService.getInstance().sendLog(null,ingred,product,null);
                 } else {
                     Snackbar snackbar = Snackbar
-                            .make(v, "Sorry Product Not!!! Please Try Again!!!", Snackbar.LENGTH_LONG);
+                            .make(v, "Product Not Found. Please Try Again", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }

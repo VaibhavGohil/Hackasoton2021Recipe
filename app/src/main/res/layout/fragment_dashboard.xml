@@ -4,7 +4,8 @@
     android:id="@+id/percentageViews"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frontend.ui.dashboard.DashboardFragment">
+    tools:context=".frontend.ui.dashboard.DashboardFragment"
+    android:background="@drawable/dashbackground">
 
 
     <androidx.recyclerview.widget.RecyclerView
