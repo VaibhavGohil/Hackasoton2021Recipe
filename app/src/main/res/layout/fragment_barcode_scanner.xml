@@ -26,4 +26,16 @@
         android:text="Scan Product Barcode"
         android:textColor="@color/black" />
 
+    <Button
+        android:id="@+id/manualEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="447dp"
+        android:layout_marginEnd="120dp"
+        android:text="@string/enter_manually" />
+
 </RelativeLayout>

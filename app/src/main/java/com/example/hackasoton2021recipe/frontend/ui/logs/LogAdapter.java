@@ -60,8 +60,9 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull LogAdapter.ViewHolder holder, int position) {
         holder.date.setText(logs.get(position).date);
         holder.ingreds.setText(logs.get(position).ingredients.toString());
-        //holder.rating.setText(logs.get(position).rating.toString());
-        holder.productName.setText(logs.get(position).productName.get(0).substring(0,15));
+        holder.rating.setText(logs.get(position).rating.toString());
+        int max = (logs.get(position).productName.get(0).length() >= 15) ? 15 : logs.get(position).productName.get(0).length();
+        holder.productName.setText(logs.get(position).productName.get(0).substring(0,max));
         holder.ratingBox.setChecked((logs.get(position).rating));
         holder.ratingBox.setOnClickListener(new View.OnClickListener() {
             @Override
