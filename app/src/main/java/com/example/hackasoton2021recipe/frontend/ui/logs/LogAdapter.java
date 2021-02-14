@@ -26,7 +26,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView date;
         TextView ingreds;
-        TextView rating;
+        //TextView rating;
         TextView productName;
         Button delete;
         CheckBox ratingBox;
@@ -35,7 +35,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
             super(itemView);
             date = itemView.findViewById(R.id.date);
             ingreds = itemView.findViewById(R.id.ingred);
-            rating = itemView.findViewById(R.id.rating);
+            //rating = itemView.findViewById(R.id.rating);
             productName = itemView.findViewById(R.id.productname);
             delete = itemView.findViewById(R.id.deletebutton);
             ratingBox = itemView.findViewById((R.id.simpleCheckBoxRating));
@@ -60,7 +60,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull LogAdapter.ViewHolder holder, int position) {
         holder.date.setText(logs.get(position).date);
         holder.ingreds.setText(logs.get(position).ingredients.toString());
-        holder.rating.setText(logs.get(position).rating.toString());
+        //holder.rating.setText(logs.get(position).rating.toString());
         holder.productName.setText(logs.get(position).productName.get(0).substring(0,15));
         holder.ratingBox.setChecked((logs.get(position).rating));
         holder.ratingBox.setOnClickListener(new View.OnClickListener() {
