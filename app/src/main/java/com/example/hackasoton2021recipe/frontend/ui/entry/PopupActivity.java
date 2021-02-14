@@ -44,19 +44,23 @@ public class PopupActivity extends AppCompatActivity {
         params.y= -20;
 
         getWindow().setAttributes(params);
-/*
         submit.setOnClickListener((new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 ArrayList<String> products = new ArrayList<>();
                 products.add(product.getText().toString());
-                ArrayList<String> ingredientArray = (ArrayList<String>) Arrays.asList(ingredients.getText().toString().split(";"));
+                String[] tempingred = ingredients.getText().toString().split(";");
+                ArrayList<String> ingredientArray = new ArrayList<>();
+                for (int i = 0; i < tempingred.length;i++){
+                    ingredientArray.add(tempingred[i]);
+                }
+                System.out.println("Button pressed: " + products.size() + " " + ingredientArray.size());
 
                 FireBaseService.getInstance().sendLog(null, ingredientArray,products, null);
+                finish();
             }
         }));
 
- */
     }
 }
