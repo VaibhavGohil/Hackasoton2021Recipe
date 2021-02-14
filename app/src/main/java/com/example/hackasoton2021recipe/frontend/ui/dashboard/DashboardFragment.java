@@ -43,7 +43,6 @@ public class DashboardFragment extends Fragment {
 
     public void updateView(){
         FireBaseService.getInstance().refresh();
-        FireBaseService.getInstance().getIngredientPercentages();
         adapter.notifyDataSetChanged();
     }
 

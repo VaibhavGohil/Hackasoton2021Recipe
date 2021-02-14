@@ -272,6 +272,7 @@ public class FireBaseService extends Application {
     public void refresh() {
         this.clear();
         this.readData();
+        this.getIngredientPercentages();
     }
 
 
@@ -281,11 +282,13 @@ public class FireBaseService extends Application {
         Log.d(null,"NULL OR NOT " + nonOccurrences);
         for (Map.Entry<String,Integer> ingredient : occurrences.entrySet()){
             Float occurrence = Float.valueOf(ingredient.getValue());
-            Float nonOccurrence = Float.valueOf(ingredient.getValue());
+            Integer tempInt = (nonOccurrences.get(ingredient.getKey()) == null) ? 0 : nonOccurrences.get(ingredient.getKey());
+            Float nonOccurrence = Float.valueOf(tempInt);
             if (nonOccurrence.equals(null)) {
                 nonOccurrence = 0f;
             }
-            Integer percent = Math.round((occurrence / (occurrence + nonOccurrence) * 100));
+            Integer percent = Math.round((occurrence / (occurrence + nonOccurrence)) * 100);
+            Log.d(null,"PERCENTANGE" + ((occurrence / (occurrence + nonOccurrence))));
             OccurancePercentage temp = new OccurancePercentage();
             temp.occuranceName = ingredient.getKey();
             temp.percentage = percent;
