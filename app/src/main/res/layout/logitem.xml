@@ -16,13 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="20dp"
-        android:paddingLeft="50dp">
+        android:paddingLeft="40dp">
 
         <TextView
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="37dp"
-            android:paddingLeft="30dp"
+            android:paddingLeft="130dp"
             android:paddingTop="15dp"
             android:paddingRight="2dp"
             android:paddingBottom="2dp"
@@ -65,14 +65,6 @@
         android:textSize="8sp"
         android:textColor="@color/black"
         tools:text="Ingredients" />
-
-    <TextView
-        android:id="@+id/rating"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/rating"
-        android:textAlignment="center"
-        android:textSize="8sp" />
 
     <FrameLayout
         android:layout_width="match_parent"

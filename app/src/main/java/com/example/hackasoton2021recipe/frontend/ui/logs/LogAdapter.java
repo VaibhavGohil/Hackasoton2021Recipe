@@ -26,7 +26,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView date;
         TextView ingreds;
-        TextView rating;
+        //TextView rating;
         TextView productName;
         Button delete;
         CheckBox ratingBox;
@@ -35,7 +35,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
             super(itemView);
             date = itemView.findViewById(R.id.date);
             ingreds = itemView.findViewById(R.id.ingred);
-            rating = itemView.findViewById(R.id.rating);
+            //rating = itemView.findViewById(R.id.rating);
             productName = itemView.findViewById(R.id.productname);
             delete = itemView.findViewById(R.id.deletebutton);
             ratingBox = itemView.findViewById((R.id.simpleCheckBoxRating));
