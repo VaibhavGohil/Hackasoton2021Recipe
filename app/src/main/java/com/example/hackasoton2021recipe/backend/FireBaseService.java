@@ -128,6 +128,7 @@ public class FireBaseService extends Application {
     public  List<DiaryLog> getData(){
         return dlogs;
     }
+
     public ArrayList<OccurancePercentage> getPercentages(){ return this.result;}
 
     public void clear(){
@@ -280,7 +281,10 @@ public class FireBaseService extends Application {
         Log.d(null,"NULL OR NOT " + nonOccurrences);
         for (Map.Entry<String,Integer> ingredient : occurrences.entrySet()){
             Float occurrence = Float.valueOf(ingredient.getValue());
-            Float nonOccurrence = (nonOccurrences == null) ? Float.valueOf(nonOccurrences.get(ingredient.getKey())) : 0;
+            Float nonOccurrence = Float.valueOf(ingredient.getValue());
+            if (nonOccurrence.equals(null)) {
+                nonOccurrence = 0f;
+            }
             Integer percent = Math.round((occurrence / (occurrence + nonOccurrence) * 100));
             OccurancePercentage temp = new OccurancePercentage();
             temp.occuranceName = ingredient.getKey();
