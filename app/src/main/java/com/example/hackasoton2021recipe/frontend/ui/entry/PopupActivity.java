@@ -48,6 +48,9 @@ public class PopupActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                if (ingredients.getText().toString().equals("") && product.getText().toString().equals("") ){
+                    finish();
+                }
                 ArrayList<String> products = new ArrayList<>();
                 products.add(product.getText().toString());
                 String[] tempingred = ingredients.getText().toString().split(";");
@@ -55,6 +58,8 @@ public class PopupActivity extends AppCompatActivity {
                 for (int i = 0; i < tempingred.length;i++){
                     ingredientArray.add(tempingred[i]);
                 }
+                if (products.size() == 0) products = null;
+                if (ingredientArray.size() == 0) ingredientArray = null;
                 System.out.println("Button pressed: " + products.size() + " " + ingredientArray.size());
 
                 FireBaseService.getInstance().sendLog(null, ingredientArray,products, null);
