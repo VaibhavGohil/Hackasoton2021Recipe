@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Hackasoton2021Recipe"
+        android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar"
         tools:ignore="Instantiatable">
         <activity android:name=".frontend.ui.entry.PopupActivity"
             android:theme="@style/Theme.Hackasoton2021Recipe.PopMe"
@@ -24,8 +24,10 @@
             android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar"></activity>
         <activity
             android:name=".frontend.LoginPage"
-            android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar">
-            >
+            android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar">>
+        </activity>
+        <activity android:name=".frontend.LoginPage"
+            android:theme="@style/Theme.Hackasoton2021Recipe.NoActionBar">>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

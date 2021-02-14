@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,15 +27,18 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
         TextView date;
         TextView ingreds;
         TextView rating;
-        ImageButton delete;
+        TextView productName;
+        Button delete;
+        CheckBox ratingBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.date);
             ingreds = itemView.findViewById(R.id.ingred);
             rating = itemView.findViewById(R.id.rating);
+            productName = itemView.findViewById(R.id.productname);
             delete = itemView.findViewById(R.id.deletebutton);
-
+            ratingBox = itemView.findViewById((R.id.simpleCheckBoxRating));
         }
     }
 
@@ -55,7 +60,21 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull LogAdapter.ViewHolder holder, int position) {
         holder.date.setText(logs.get(position).date);
         holder.ingreds.setText(logs.get(position).ingredients.toString());
-        holder.rating.setText(logs.get(position).rating);
+        holder.rating.setText(logs.get(position).rating.toString());
+        holder.productName.setText(logs.get(position).productName.get(0).substring(0,15));
+        holder.ratingBox.setChecked((logs.get(position).rating));
+        holder.ratingBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(((CompoundButton) view).isChecked()){
+                    FireBaseService.getInstance().updateRating(logs.get(position).path,true,position);
+                } else {
+                    FireBaseService.getInstance().updateRating(logs.get(position).path,false,position);
+                }
+                notifyItemChanged(position);
+                FireBaseService.getInstance().getDashboardFragment().updateView();
+            }
+        });
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
